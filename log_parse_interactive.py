@@ -50,26 +50,9 @@ def main():
 	print args
 
 	stats = {"total_requests":0, "unique_requests":0, "duplicate_requests":0, "successes":0, "failures":0}
-	requests = {}
-	responses = {}
+	events = {}
 	for event in get_events(log_files, start_event, end_event, options.delimiter):
-		request = requests.pop(event[identifier], False)
-		response = responses.pop(event[identifier], False)
-		if event["event"] == start_event:
-			if request:
-				stats["duplicate_requests"] += 1
-			else:
-				stats["unique_requests"] += 1
-			if response:
-				stats["successes"] += 1
-			else:
-				requests[event[identifier]] = event
-			stats["total_requests"] += 1
-		else:
-			if request:
-				stats["successes"] += 1
-			else:
-				responses[event[identifier]] = event
+
 	import pdb; pdb.set_trace()
 	stats["failures"]=len(requests)
 
